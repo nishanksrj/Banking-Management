@@ -8,19 +8,24 @@ var app             = express();
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
+var passport        = require('passport');
+var cookieParser    = require('cookie-parser');
+var cors            = require('cors');
 
+var database        = require('./app/models');
 var routes          = require('./app/routes');
+
+
 
 // configuration ========================================
 
-// config files
-var db = require('./config/db');
+require('./config/passport');
 
 // set our port
 var port = process.env.PORT || 8080;
 
-// connect to mongoDB database
-mongoose.connect(db.url,{useNewUrlParser : true});
+// initialize the passport as Express middleware
+app.use(passport.initialize());
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
@@ -32,15 +37,18 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(cors());
+
 // override with the X-HTTP-Method Override header in the request
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'));
 
+app.use(cookieParser());
 
 // routes ================================================
-app.use('/',routes);
+app.use('/api',routes);
 
 
 // start app =============================================
@@ -50,5 +58,3 @@ app.listen(port);
 
 // expose app
 exports = module.exports = app;
-
-

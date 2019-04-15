@@ -1,0 +1,10 @@
+<div class ="wrapper">
+  <div class="formContent">
+    <h2 class="underlineHover" routerLink = '/customer/login' routerLinkActivate ="active">Sign In</h2>
+    <h2 class="underlineHover" routerLink = '/customer/register' routerLinkActivate ="active">Sign Up</h2>
+    <div *ngIf ="auth.isLoggedIn()">
+      <p> Customer Name: {{ auth.getUserDetails()?.name }}</p>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

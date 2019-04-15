@@ -1,8 +1,26 @@
+// app/models.account.js
+
 var mongoose = require('mongoose');
 
 var AccountSchema = new mongoose.Schema({
-  holder:{type : String,  required : true},
-  type:{type : String,  required : true}
+  account_no: {
+    type  : String,
+    unique  : true,
+    required  : true
+  },
+  holder_id: {
+    type : String,
+    required : true
+  },
+  branch_id: {
+    type : Number,
+    required : true
+  },
+  balance:{
+    type: Number,
+    required: true,
+    default: 0
+  }
 });
 
 
